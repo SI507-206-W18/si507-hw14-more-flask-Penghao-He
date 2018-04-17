@@ -4,9 +4,9 @@ import model
 app = Flask(__name__)
 
 @app.route("/")
-def index():
+def admin():
     ## print the guestbook
-    return render_template("index.html", entries=model.get_entries())
+    return render_template("admin.html", entries=model.get_entries())
 
 @app.route("/add")
 def addentry():
@@ -18,6 +18,12 @@ def postentry():
     name = request.form["name"]
     message = request.form["message"]
     model.add_entry(name, message)
+    return redirect("/")
+
+@app.route("/delete", methods=["POST"])
+def deleteentry():
+    id_value = request.form["id"]
+    model.delete_entry(id_value)
     return redirect("/")
 
 if __name__=="__main__":
